@@ -1,0 +1,214 @@
+## scratch work for the dada2 notebook 
+
+
+######################################################
+
+## removing primers from wood reads? Or are they already gone?
+
+## unzip wood reads
+for i in *
+do 
+gunzip $i
+done
+
+## look:
+head lane1-s160-index-AAGCACTG-GTGATCCANNNN-Dc-X_S160_L001_R1_001.fastq
+
+## general ITS1f:
+grep CTTGGTCATTTAGAGGAAGTAA lane1-s160-index-AAGCACTG-GTGATCCANNNN-Dc-X_S160_L001_R1_001.fastq
+
+grep CTTGGTCATTTAGAGGAAGTAA lane1-s160-index-AAGCACTG-GTGATCCANNNN-Dc-X_S160_L001_R2_001.fastq
+## nope
+
+## all files:
+grep CTTGGTCATTTAGAGGAAGTAA -R ./ | wc -l  ## 129 
+
+grep ^CTTGGTCATTTAGAGGAAGTAA -R ./  ## just one?
+grep ^CTTGGTCATTTAGAGGAAGTAA -R ./ | wc -l  ## yup
+
+## reverse compliment of ITS1f?
+grep CTTCCTCTAAATGACCAAG -R ./  ## all R2, by the looks
+
+grep CTTCCTCTAAATGACCAAG -R ./ > wtf.txt &  
+
+grep CTTCCTCTAAATGACCAAG -R ./ | wc -l ## 2,370,829 eh? 
+
+grep ^CTTCCTCTAAATGACCAAG -R ./ | wc -l
+
+## how many reads do I have in total?
+grep ^@M0 -R ./ | wc -l ## 11135598, /2 = ~5.56 x 10^6
+## so I guess nearly half of these reads have the reverse compliment on them, near the end of their sequence. 
+
+## should I get rid of this? Seems like best to clip it off...
+
+
+
+
+## general ITS2:
+grep GCTGCGTTCTTCATCGATGC lane1-s160-index-AAGCACTG-GTGATCCANNNN-Dc-X_S160_L001_R1_001.fastq
+grep GCTGCGTTCTTCATCGATGC lane1-s160-index-AAGCACTG-GTGATCCANNNN-Dc-X_S160_L001_R2_001.fastq
+## nope
+
+## all files:
+grep GCTGCGTTCTTCATCGATGC -R ./ | wc -l  ## 57, R1 and R2
+
+grep ^GCTGCGTTCTTCATCGATGC -R ./  ##
+grep ^GCTGCGTTCTTCATCGATGC -R ./ | wc -l  ##
+
+
+## get back to these, will remove the floating primer reads later
+
+## reverse compliment of ITS2?
+grep GCATCGATGAAGAACGCAGC -R ./ 
+
+grep ^GCATCGATGAAGAACGCAGC -R ./  | wc -l ## 213 weird, some amount of these start with ITS 2, reverse compliment
+
+grep GCATCGATGAAGAACGCAGC -R ./ | wc -l  ## 2,802,824. As above 
+
+grep GCATCGATGAAGAACGCAGC -R ./ > wtf2.txt &
+
+grep R1 wtf2.txt | wc -l ## 2803811 around half, again
+
+grep R2 wtf2.txt | wc -l ## 13. A few.
+
+
+## so I think the story here is that the R1 are my forward reads.
+## They contain the reverse compliment of the other primer, near
+## their ends.
+
+## The same is true for the R2, which must be my reverse reads
+
+## so plan to clean up:
+
+## 1) clip off the ends, reverse primer on. 
+## 2) remove any remaining reads with either primer
+## or the RC of either primer anywhere in the 
+## in the sequence.  
+## 3) also remove the matched read from the other 
+## other direction 
+
+## but first, let's get Roo's demultiplexed, and see if there 
+## are similar issues ....
+
+################################################
+
+## demult Roo's reads
+
+## can we use the fastx barcode splitter to demultiplex?
+## I remember he used split barcodes, golay...
+
+## what do his reads look like?
+
+cd /home/daniel/Documents/taiwan/leafreads
+
+head -n 8 TaiwanFA_R2.fastq
+
+## what are we looking at here? 
+
+ITS1f=CTTGGTCATTTAGAGGAAGTAA
+
+head -n 8 TaiwanFA_R2.fastq | grep $ITS1f ## lotsa floating primers but no anchored primer. Golays must go first
+## 159 floaters
+## 18 million reads total?
+
+grep $ITS1f TaiwanFA_R1.fastq | wc -l && wc -l TaiwanFA_R1.fastq
+
+## half of one set of barcodes
+
+## so for instance, our first barcode is:
+## ACCCATATATCC
+## the first half of this should be abundant as the first six BP of many of the reads:
+
+head -n 1000000 TaiwanFA_R2.fastq | grep ^ACCCAT 
+
+head -n 1000000 TaiwanFA_R2.fastq | grep ^ACCCAT | wc -l ## 12,267 reads
+## yeah, that works. 
+
+## the other half should be abundant as the start of many of the R1 reads:
+
+head -n 1000000 TaiwanFA_R1.fastq | grep ^ATATCC
+head -n 1000000 TaiwanFA_R1.fastq | grep ^ATATCC | wc -l ## 13,156 reads
+
+## how do we know we have the same read order for forward and reverse?
+
+head -n 4 TaiwanFA_R1.fastq
+head -n 4 TaiwanFA_R2.fastq
+
+head -n 24 TaiwanFA_R1.fastq | sed -n '1~4p' 
+head -n 24 TaiwanFA_R2.fastq | sed -n '1~4p' 
+
+tail -n 24 TaiwanFA_R1.fastq | sed -n '1~4p' 
+tail -n 24 TaiwanFA_R2.fastq | sed -n '1~4p' 
+
+## they seem to be ordered correctly. 
+
+## let's try my old script:
+
+cd /home/daniel/Documents/taiwan/taiwan_dada2
+wget https://raw.githubusercontent.com/danchurch/taiwan_combined_biom/master/scripts/BCunsplit4.py
+mv BCunsplit4.py BCunsplit.py
+chmod 775 BCunsplit.py
+
+## make toy files:
+head -n 1000 ../leafreads/TaiwanFA_R1.fastq > toy_R1.fastq
+head toy_R1.fastq
+
+head -n 1000 ../leafreads/TaiwanFA_R2.fastq > toy_R2.fastq
+head toy_R2.fastq
+
+## I think that the old script removed the primers entirely from
+## the reverse reads, and relied on the exact matching of order
+## to keep things organized. But I think here we need both the 
+## reverse and forward reads to keep a copy of their barcodes, 
+## since demultiplexing occurs prior to merging, using these
+## barcodes.
+
+## so edits made. Try it out:
+
+./BCunsplit.py toy_R2.fastq toy_R1.fastq
+
+## look at the results:
+
+## take the first six BP of the first 10 reads from each, 
+## check to see if they are the same
+aa=$(head -n 40 rearranged_toy_R2.fastq | sed -n '2~4p' | cut -c -6)
+bb=$(head -n 40 toy_R2.fastq | sed -n '2~4p' | cut -c -6)
+echo $aa
+echo $bb
+if [ "$aa" == "$bb" ]; then echo "true"; fi
+
+## and the original?
+
+cc=$(head -n 40 ../leafreads/TaiwanFA_R2.fastq | sed -n '2~4p' | cut -c -6)
+echo $aa
+echo $cc
+if [ "$aa" == "$cc" ]; then echo "true"; fi
+
+## all the way?:
+
+aa=$(tail -n 40 rearranged_toy_R2.fastq | sed -n '2~4p' | cut -c -6)
+bb=$(tail -n 40 toy_R2.fastq | sed -n '2~4p' | cut -c -6)
+echo $aa
+echo $bb
+if [ "$aa" == "$bb" ]; then echo "true"; fi
+
+## looks good
+
+## now barcodes of the forward and reverse rearranged files should match, too:
+aa=$(head -n 40 rearranged_toy_R1.fastq | sed -n '2~4p' | cut -c -12)
+bb=$(head -n 40 rearranged_toy_R2.fastq | sed -n '2~4p' | cut -c -12)
+echo $aa
+echo $bb
+if [ "$aa" == "$bb" ]; then echo "true"; fi
+
+aa=$(tail -n 40 rearranged_toy_R1.fastq | sed -n '2~4p' | cut -c -12)
+bb=$(tail -n 40 rearranged_toy_R2.fastq | sed -n '2~4p' | cut -c -12)
+echo $aa
+echo $bb
+if [ "$aa" == "$bb" ]; then echo "true"; fi
+
+## looks good to me
+
+## let's do it on the whole data set:
+
+time ./BCunsplit.py ../leafreads/TaiwanFA_R2.fastq ../leafreads/TaiwanFA_R1.fastq
