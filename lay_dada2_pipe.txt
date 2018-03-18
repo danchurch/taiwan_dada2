@@ -212,3 +212,51 @@ if [ "$aa" == "$bb" ]; then echo "true"; fi
 ## let's do it on the whole data set:
 
 time ./BCunsplit.py ../leafreads/TaiwanFA_R2.fastq ../leafreads/TaiwanFA_R1.fastq
+
+## okay, way too big for my little script - not sure why. I thought 
+## using the iterators in python kept the memory use down, even with
+## large files
+
+## so either I tinker more with the script or I break up the file 
+## into a smaller size. 
+
+## since I don't know how to scale up the script right now, let's try 
+## breaking up the file
+
+## how?
+
+## how many lines in Roo's reads? 
+
+leafR1=/home/daniel/Documents/taiwan/leafreads/TaiwanFA_R1.fastq
+leafR2=/home/daniel/Documents/taiwan/leafreads/TaiwanFA_R2.fastq
+
+wc -l $leafR1 && wc -l $leafR2
+
+## 73 x 10^6 lines. As long as we split by multiples of four, we should
+## be able to maintain our read order. Try files of 10 x 10^6 reads
+
+split -d -l 10000000 $leafR1 leafR1sub
+
+split -d -l 10000000 $leafR2 leafR2sub
+
+## scoured the files with head/tail, they seem to have preserved order
+## and kept the individual reads with their quality scores and headers
+## intact. 
+
+## so now what? run our barcode rearrangement script on them, concatenate.
+
+## what does this look like?
+
+time ../BCunsplit.py leafR2sub00 leafR1sub00
+
+## yeah works. So let's try:
+
+nus=(00 01 02 03 04 05 06 07)
+for i in ${nus[*]}
+do 
+../BCunsplit.py leafR2sub$i leafR1sub$i
+done
+
+## now concatenate:
+
+
