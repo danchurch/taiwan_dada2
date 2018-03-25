@@ -258,5 +258,131 @@ do
 done
 
 ## now concatenate:
+ls leafR1sub0*
+
+ls leafR2sub0*
+
+cat rearranged_leafR1sub0* > rearranged_leafR1.fastq && cat rearranged_leafR2sub0* > rearranged_leafR2.fastq &
+
+## did this work? line order maintained? Random line checks
+
+grep ACCCATATATCC rearranged_leafR1.fastq | wc -l ## 15
+grep ACCCATATATCC $leafR1 | wc -l ## 15
+
+head -n 4 $leafR1
+
+## huh, not seeing the barcode. 
+
+## do the forward and reverse rearranged barcodes match, at least? 
+aa=$(head -n 40 rearranged_leafR1.fastq | sed -n '2~4p' | cut -c -12)
+bb=$(head -n 40 rearranged_leafR2.fastq | sed -n '2~4p' | cut -c -12)
+
+echo $aa
+echo $bb
+if [ "$aa" == "$bb" ]; then echo "true"; fi
+
+## yeah, but these aren't barcodes. 
+## where are the barcodes?
+## and where are the primers? Am I going crazy here?
+
+ITS1f=CTTGGTCATTTAGAGGAAGTAA
+ITS1fRC=TTACTTCCTCTAAATGACCAAG
+ITS2=GCTGCGTTCTTCATCGATGC
+ITS2RC=GCATCGATGAAGAACGCAGC
+
+head $leafR2 | grep G
+
+head $leafR2 | grep $ITS1f
+head $leafR2 | grep $ITS1fRC
+head $leafR2 | grep $ITS2
+head $leafR2 | grep $ITS2RC
+
+head -n 4000 $leafR2 | grep $ITS1f
+head -n 4000 $leafR2 | grep $ITS1fRC
+head -n 4000 $leafR2 | grep $ITS2
+head -n 4000 $leafR2 | grep $ITS2RC
+
+head -n 4000 $leafR2 | grep ${ITS1f::5} | wc -l 
+
+## nearly all, first five of primer (905 out of 1000 reads)
+## the first six must be the first half of the BC
+## primer sequences must be in bad shape
+
+head -n 4000 $leafR2 | grep ^${ITS1f::5} | wc -l ## only 1. So these are not starting with ITS1f, BC first
+
+head -n 4000 $leafR2 | grep ${ITS1f::5}  ## generally after 6 bp, makes sense
+
+## how about with the rearranged reads:
+
+echo $(head -n 4000 rearranged_leafR2.fastq | grep ${ITS1f::5} | wc -l) &
+
+echo $(grep ${ITS1f::5} rearranged_leafR2.fastq | wc -l) &
+
+## ok, 12 bp, so that worked...
+## but are these actually barcodes?
+
+## check one barcode:
+grep GGGCGCGGGGCG $leafR2 | wc -l ## 1105 - 1000 reads, possible, but that's not many...
+
+## how many are where they are supposed to be?
+aa=$(grep ^GGGCGCGGGGCG $leafR2 | wc -l) && echo $aa &
+## 5. Just five. What the hell.
+
+## check another:
+grep ATCAAAAAGACG $leafR2 | wc -l ## 41 ????
+
+aa=$(grep ^ATCAAAAAGACG $leafR2 | wc -l) && echo $aa & ## 0
+
+## hmm, not understanding this...
+
+## are these not the barcodes?
+
+## shall we try demultiplexing with fastx and see what happens?
+
+## first have to make the text file for fastx...
+
+## should be as simple as listing the barcodes from Roo's map,
+## with a name in front of each:
+
+head leafread_map.txt
+
+libreoffice --calc leafread_map.txt &
+
+## okay, there's a bunch of carriage returns in Roo's text file,
+
+## can we turn these into unix line breaks?
+
+head -c 500 leafread_map.txt 
+
+## let's try with dos2unix:
+
+dos2unix -c mac -n leafread_map.txt leafread_map2.txt
+
+## now get first two columns
+
+head leafread_map2.txt | cut -f 1-2
+
+cut -f 1-2 leafread_map2.txt > leafread_fastx_map.txt
+
+## now will fastx split up our samples?
+
+mkdir demult 
+cd demult 
+
+cat $leafR1 | fastx_barcode_splitter.pl --bcfile ../leafread_fastx_map.txt --prefix leaf_sample_  \
+--bol --mismatches 1 --partial 1 
+
+cat $leafR2 | fastx_barcode_splitter.pl --bcfile ../leafread_fastx_map.txt --prefix leaf_sample_  \
+--bol --mismatches 1 --partial 1 
+
+## it says labels must be alphanumeric...
+## sed this problem?:
+
+sed -i 's/\.1/A/' leafread_fastx_map.txt && sed -i 's/\.2/B/' leafread_fastx_map.txt
+
+## try again...
+
+cat $leafR1 | fastx_barcode_splitter.pl --bcfile ../leafread_fastx_map.txt --prefix leaf_sample_  \
+--bol --mismatches 1 --partial 1 
 
 

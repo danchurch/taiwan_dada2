@@ -2,3 +2,5 @@
 .ipynb_checkpoints/
 *.sw*
 leafsplit
+leaf_demult
+*.fastq
