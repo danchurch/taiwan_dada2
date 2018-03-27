@@ -382,7 +382,270 @@ sed -i 's/\.1/A/' leafread_fastx_map.txt && sed -i 's/\.2/B/' leafread_fastx_map
 
 ## try again...
 
-cat $leafR1 | fastx_barcode_splitter.pl --bcfile ../leafread_fastx_map.txt --prefix leaf_sample_  \
---bol --mismatches 1 --partial 1 
+cat ../rearranged_leafR1.fastq | fastx_barcode_splitter.pl --bcfile ../leafread_fastx_map.txt --prefix leafR1_  \
+--bol --mismatches 1 --partial 1  &
 
 
+cat ../../rearranged_leafR2.fastq | fastx_barcode_splitter.pl --bcfile ../../leafread_fastx_map.txt --prefix leafR2_  \
+--bol --mismatches 1 --partial 1  &
+
+## 4,042,017 reads unmatched.  Out of 18,201,615. 
+## fair amount not matching, but I guess that's okay, 
+
+##### removing primers ########
+
+## two kinds of primers - traditional, beginning of line primers and
+## floating primers, which I made a script for removing... we should look at it:
+
+wget https://raw.githubusercontent.com/danchurch/taiwan_combined_biom/master/scripts/floatingprimers.py
+
+## make sense, still. But to use it, we have to use a FASTA, not a fastq. Modify it?
+
+## or maybe take a different approach. how about grepping the primer sequences and
+## deleting the line if it has the sequence? and the previous and following lines?
+
+cat > moop.txt
+
+moop doldhjhlkhj
+zoop lkjqewsbf
+juzz xoop lakjdhur
+toop caihgreiskhi
+alwruhgieugh woop slkjfh
+
+
+sed -n '/zoop/p' moop.txt
+
+cat moop.txt
+
+sed -i '/zoop/d' moop.txt
+
+sed '/^zoop/,+2 d' moop.txt
+
+
+
+head -n 8 leafR1_1 | sed '/TTTCTTTTACT/,+3 d' 
+## but what about previous line?
+
+## not so simple. what about grep?
+
+head -n 8 leafR1_1 | grep 'TTTCTTTTACT' -A 2 -B 1
+
+## to get line number
+head -n 8 leafR1_1 | grep 'TTTCTTTTACT' -n | cut -d : -f 1
+
+aa=$(grep 'TTTCTTTTACT' -m 1 -n leafR1_1 | cut -d : -f 1)
+first=$(expr $aa - 1)
+last=$(expr $aa + 2)
+
+head -n 8 leafR1_1 | sed -n '5,8p'
+
+head -n 8 leafR1_1 | sed '5,8d'
+
+## but there will be many grep hits in a file, not just one...
+
+ITS1f=CTTGGTCATTTAGAGGAAGTAA
+ITS1fRC=TTACTTCCTCTAAATGACCAAG
+ITS2=GCTGCGTTCTTCATCGATGC
+ITS2RC=GCATCGATGAAGAACGCAGC
+
+cp leafR1_1 test1
+
+bb=$(grep -n $ITS1fRC test1 | cut -d : -f 1)
+
+cc=($bb)
+
+for i in $bb
+do 
+
+first=$(expr $i - 1)
+last=$(expr $i + 2)
+sed -i "$first,$last d" test1
+echo $i done!
+done
+
+grep -n $ITS1fRC test1 | cut -d : -f 1
+
+#### meh. what about finding the header address with grep, then 
+## deleting with SED?
+
+bb=$(grep -n -m 1 $ITS1fRC test1 | cut -d : -f 1)
+cc=$(expr $bb - 1)
+sed -n "$cc p" test1 ## okay works
+
+############ 
+
+## start over. We want to do three things:
+## 1) remove revercompliment primers and everything 
+##    after on all sequences that have them
+## 2) remove floating primers
+## 3) remove beginning of line primers and barcodes
+
+## for #1, a simple sed sub command should do:
+
+head -n 30 test1 > test2
+
+grep $ITS1fRC test2
+
+sed "s/$ITS1fRC.*//g" test2 > test3
+
+ITS1f=CTTGGTCATTTAGAGGAAGTAA
+ITS1fRC=TTACTTCCTCTAAATGACCAAG
+ITS2=GCTGCGTTCTTCATCGATGC
+ITS2RC=GCATCGATGAAGAACGCAGC
+
+head -n 1000 rearranged_leafR2.fastq > toy_R2.fastq
+
+grep -n $ITS2RC toy_R2.fastq | wc -l
+
+grep -n $ITS2RC toy_R2.fastq
+
+sed "s/$ITS2RC.*$//" toy_R2.fastq > toy_R2.1.fastq
+sed -n "582p" toy_R2.fastq | grep $ITS2RC
+sed -n "582p" toy_R2.1.fastq 
+
+sed -n "582p" toy_R2.1.fastq | grep $ITS2RC
+
+
+sed -n "790,792p" toy_R2.fastq  | grep $ITS2RC
+sed -n "790,792p" toy_R2.1.fastq 
+
+## R1, should have  RC of ITS2 in them:
+
+head -n 1000 rearranged_leafR1.fastq > toy_R1.fastq
+
+grep $ITS1fRC toy_R1.fastq 
+
+grep $ITS1fRC toy_R1.fastq | wc -l ## 28 out of 250, ~10%!
+
+grep $ITS1fRC rearranged_leafR1.fastq | wc -l ## 6,514,098, quite a lot. 
+
+sed "s/$ITS1fRC.*$//" rearranged_leafR1.fastq > rearranged_leafR1.1.fastq
+
+## R2, should have RC of ITS2 in them:
+
+sed "s/$ITS2RC.*$//" rearranged_leafR2.fastq > rearranged_leafR2.1.fastq
+
+## after doing this, many of these are very short:
+zz=CGTTAACATACCCTTGGTNATTTAGAGGAAGTAAATGTTGCACTTTATTCAAAACAAAAGTACAAATATGCAAAGCCGAGATAAATACAACGGAGGATGAATCTACTCCAGACTTGTG
+echo ${#zz} ## 118 BP
+
+## so they may just be mutant reads we're going to have to throw out.
+
+########################
+
+## removing BOL barcodes and primers (and linkers?)
+
+## should be simple: first 12 BP are barcodes. Then the ITS1f or ITS2. 
+
+## But are the linker sequences in there somewhere? Don't think so,
+## but let's make sure:
+
+linker=GCTGCGTTCTTCATCGATGC
+linkerRC=GCATCGATGAAGAACGCAGC
+
+grep $linkerRC rearranged_leafR2.fastq | wc -l & ## huh...
+
+grep $linkerRC <(head -n 10000 rearranged_leafR2.fastq) | wc -l ## 92
+
+grep $linkerRC <(head -n 10000 rearranged_leafR2.fastq)  ## a fair amount...
+
+grep $linkerRC <(head -n 10000 rearranged_leafR2.1.fastq) | wc  ## ...0...
+
+grep $linkerRC <(head -n 10000 rearranged_leafR2.1.fastq)  ## so after the RC primers
+
+grep $linker <(head -n 10000 rearranged_leafR2.fastq) | wc -l ## 0
+
+## so it looks like they are mostly at the R1 side
+
+grep $linker <(head -n 10000 rearranged_leafR1.fastq) | wc -l ## 2133
+
+grep $linker <(head -n 10000 rearranged_leafR1.1.fastq) | wc -l ## 2133 
+
+grep $linkerRC <(head -n 10000 rearranged_leafR1.fastq) | wc -l ## 0
+
+## so it looks like the linker function remains in the R1 reads, 
+## but not the R2?
+
+## perhaps this is the definition of R1 - the set of reads that 
+## had the linker sequence. Dunno. 
+
+## anyway, so where are the primer sequences?
+
+ITS1f=CTTGGTCATTTAGAGGAAGTAA
+ITS1fRC=TTACTTCCTCTAAATGACCAAG
+ITS2=GCTGCGTTCTTCATCGATGC
+ITS2RC=GCATCGATGAAGAACGCAGC
+
+
+echo ${#linker} ## linker is 20 bp
+
+echo ${#ITS1f} #ITS1f is 22 bp
+
+echo ${#ITS2} ## ITS2 is 20 bp
+
+## so theoretically, the primers on the 
+## R1 reads should start at 12+20+1 = bp33
+## and go for 20 bp, so bp52
+
+## R2 reads should start right after 
+## barcodes, so 12+1 = bp13, and go 
+## for 22 bp, till bp24
+
+## is this true?
+
+## we know the primer regions are really degenerate
+## in these early reads...
+
+grep $ITS1f <(head -n 10000 rearranged_leafR2.1.fastq) 
+
+grep CTTGGTCATTTAGAGGAAGTAA <(head -n 10000 rearranged_leafR2.1.fastq) 
+
+## CTTGGTCATTTAGAGGAAGTAA ##actual ITS1f
+## CTTGGTNCTTTCTATGCACTAA ##from first read
+## CTTGGT..TTT..A.G.A.TAA ## try searching with this
+
+grep CTTGGT..TTT..A.G.A.TAA <(head -n 10000 rearranged_leafR2.1.fastq) | wc -l
+## 1996, out of 2500
+
+grep CTTGGT..TTT..A.G.A.TAA <(head -n 10000 rearranged_leafR2.1.fastq) 
+
+
+##### ITS2 for R1 reads?
+
+grep GCTGCGTTCTTCATCGATGC <(head -n 10000 rearranged_leafR1.1.fastq) | wc -l ##2133
+## much higher quality than R2 primer region
+
+## fastx trimmer for R1 reads:
+
+## primer is ITS2 (20bp) + 12bp barcodes, so first bp to keep is
+## 33
+
+fastx_trimmer -i rearranged_leafR1.1.fastq -Q33 -f 33 -o rearranged_leafR1.2.fastq
+
+## fastx trimmer for R2 reads:
+
+## primer is ITS1f (22bp) + 12bp barcodes, so first bp to keep is
+## 35
+
+
+## not working. -q33 not helping. something's up... now that I think about it,
+## I don't think I added the quality info back in for the reverse half of the 
+## barcodes into the forward reads and vice versa...does this matter here?
+
+## check this:
+
+head -n 4 rearranged_leafR2.1.fastq 
+
+expr length $(sed -n '2p' <(head -n 10 rearranged_leafR2.1.fastq))
+expr length $(sed -n '4p' <(head -n 10 rearranged_leafR2.1.fastq))
+## same
+
+expr length $(sed -n '2p' <(head -n 10 rearranged_leafR1.1.fastq))
+expr length $(sed -n '4p' <(head -n 10 rearranged_leafR1.1.fastq))
+## not same. How to fix this? Have to go back into the script...
+
+## but first, is the problem? Yeah, cuz this works:
+
+fastx_trimmer -i -q33 rearranged_leafR2.1.fastq -f 35 -o rearranged_leafR2.2.fastq
+
+## so it's the R1 reads needs be fixed...
