@@ -99,7 +99,10 @@ with open(hh,'w') as goop2:
         ## this line is edited to keep barcodes in reverse reads:
 		print(forwardBC[j]+reverseBC[j]+reversereads[j], file = goop2, end='')
 		print('+', file = goop2)
-		print(reversereadsq[j], file = goop2, end = '')
+		#print(reversereadsq[j], file = goop2, end = '')
+        ## this line above replaced with line below, also 
+        ## to keep barcodes in reverse reads:
+		print(forwardBCq[j]+reverseBCq[j]+reversereadsq[j], file = goop2, end = '')
 
 
 

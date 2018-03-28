@@ -1,6 +1,7 @@
 .Rhistory
 .ipynb_checkpoints/
 *.sw*
-leafsplit
-leaf_demult
+leaf_demult_fastx/
+leaf_recombine/
 *.fastq
+

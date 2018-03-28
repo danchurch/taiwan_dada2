@@ -649,3 +649,97 @@ expr length $(sed -n '4p' <(head -n 10 rearranged_leafR1.1.fastq))
 fastx_trimmer -i -q33 rearranged_leafR2.1.fastq -f 35 -o rearranged_leafR2.2.fastq
 
 ## so it's the R1 reads needs be fixed...
+
+## back up like two weeks, fix script...
+
+## okay, did that work?
+
+
+head -n 1000 ../leafreads/TaiwanFA_R1.fastq > toy_R1.fastq
+head -n 1000 ../leafreads/TaiwanFA_R2.fastq > toy_R2.fastq
+
+./BCunsplit.py toy_R2.fastq toy_R1.fastq
+
+expr length $(sed -n '2p' <(head -n 10 rearranged_toy_R1.fastq))
+expr length $(sed -n '4p' <(head -n 10 rearranged_toy_R1.fastq))
+
+expr length $(sed -n '2p' <(head -n 10 rearranged_toy_R2.fastq))
+expr length $(sed -n '4p' <(head -n 10 rearranged_toy_R2.fastq))
+
+## seems like it works. okay, go back and repeat pipeline with 
+## this script...
+
+## make sure it worked
+
+leafR1=/home/daniel/Documents/taiwan/leafreads/TaiwanFA_R1.fastq
+leafR2=/home/daniel/Documents/taiwan/leafreads/TaiwanFA_R2.fastq
+
+## do headers match everywhere?
+
+sed -n '1p' <(head $leafR1)
+sed -n '1p' <(head rearranged_leafR1.fastq)
+sed -n '1p' <(head $leafR2)
+sed -n '1p' <(head rearranged_leafR2.fastq)
+
+sed -n '1p' <(tail -n 4 $leafR1)
+sed -n '1p' <(tail -n 4 rearranged_leafR1.fastq)
+sed -n '1p' <(tail -n 4 $leafR2)
+sed -n '1p' <(tail -n 4 rearranged_leafR2.fastq)
+
+
+expr length $(sed -n '2p' <(head rearranged_leafR2.fastq))
+expr length $(sed -n '2p' <(head rearranged_leafR1.fastq))
+
+expr length $(sed -n '12p' <(head -n 100 $leafR2))
+expr length $(sed -n '12p' <(head -n 100 $leafR1))
+
+sed -n '2~4p' <(head -n 100 rearranged_leafR2.fastq)
+
+echo $(sed -n '2p' <(head -n 4 rearranged_leafR2.fastq))
+echo $(sed -n '4p' <(head -n 4 rearranged_leafR2.fastq))
+expr length $(sed -n '2p' <(head -n 4 rearranged_leafR2.fastq))
+expr length $(sed -n '4p' <(head -n 4 rearranged_leafR2.fastq))
+
+echo $(sed -n '2p' <(tail -n 4 rearranged_leafR2.fastq))
+echo $(sed -n '4p' <(tail -n 4 rearranged_leafR2.fastq))
+expr length $(sed -n '2p' <(tail -n 4 rearranged_leafR2.fastq))
+expr length $(sed -n '4p' <(tail -n 4 rearranged_leafR2.fastq))
+
+#####################3
+
+## just realized all that work for cutting off
+## primers was a little misdirected. It needs 
+## to happen to the demultiplexed files, not
+## the combination reads. 
+
+## how to do this? Do it tomorrow, but 
+
+
+## I think it would looks something like:
+
+
+## for R1:
+
+## first, remove RC primers and everything past
+cd /home/daniel/Documents/taiwan/taiwan_dada2/leaf_demult_fastx/R1_demult
+
+for i in * 
+do
+sed "s/$ITS1fRC.*$//" $i > $i.1.fastq
+done
+
+## then remove BOL barcodes/primer
+for i in *
+do
+fastx_trimmer -i $i -f 33 -o $i.2.fastq
+done
+
+## do also for R2.
+
+## then check read order
+
+## then start the dada2 pipeline
+
+## then repeat the analysis from the paper
+
+## jeezus christ
