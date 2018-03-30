@@ -743,3 +743,48 @@ done
 ## then repeat the analysis from the paper
 
 ## jeezus christ
+
+###########
+
+## check order after demultiplexing:
+
+R1dmult=/home/daniel/Documents/taiwan/taiwan_dada2/leaf_demult_fastx/R1_demult
+R2dmult=/home/daniel/Documents/taiwan/taiwan_dada2/leaf_demult_fastx/R2_demult
+
+cd $R1dmult 
+
+aa=$(head -n 1 $R1dmult/leafR1_1)
+echo ${aa: -30: -7} 
+aa=$(head -n 1 $R2dmult/leafR2_1)
+echo ${aa: -30: -7} 
+
+
+aa=$(sed -n "1~4p" <( head -n 100 $R1dmult/leafR1_1) | cut -d : -f 6,7 | cut -d ' ' -f 1)
+bb=$(sed -n "1~4p" <( head -n 100 $R2dmult/leafR2_1) | cut -d : -f 6,7 | cut -d ' ' -f 1)
+if [ "$aa" == "$bb" ]
+then echo "same!"
+else echo "different!"
+fi
+
+cp $R1dmult/leafR1_20 ./fakeR1_20
+
+sed -n '1p' fakeR1_20
+
+sed -i '1s/18044:1415/18044:1416/' fakeR1_20
+
+aa=$(sed -n "1~4p" <( head -n 10000 $R1dmult/leafR1_20) | cut -d : -f 6,7 | cut -d ' ' -f 1)
+bb=$(sed -n "1~4p" <( head -n 10000 $R2dmult/fakeR1_20) | cut -d : -f 6,7 | cut -d ' ' -f 1)
+if [ "$aa" == "$bb" ]
+then echo "same!"
+else echo "different!"
+fi
+
+
+aa=$(sed -n "1~4p" <( head -n 100000 $R1dmult/leafR1_79) | cut -d : -f 6,7 | cut -d ' ' -f 1)
+bb=$(sed -n "1~4p" <( head -n 100000 $R2dmult/leafR2_79) | cut -d : -f 6,7 | cut -d ' ' -f 1)
+if [ "$aa" == "$bb" ]
+then echo "same!"
+else echo "different!"
+fi
+
+
