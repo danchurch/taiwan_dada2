@@ -787,4 +787,168 @@ then echo "same!"
 else echo "different!"
 fi
 
+############
+
+## how to cleanup runover primers and sequence from all the demultiplexed samples?
+
+cd /home/daniel/Documents/taiwan/taiwan_dada2/leaf_demult_fastx/R1_demult
+
+## R1 reads are reverse reads, they should start with ITS2 and 
+## and end with RC of ITS1f. Check this:
+
+ITS1f=CTTGGTCATTTAGAGGAAGTAA
+degenITS1f=CTTGGT..TTT..A.G.A.TAA
+ITS1fRC=TTACTTCCTCTAAATGACCAAG
+ITS2=GCTGCGTTCTTCATCGATGC
+ITS2RC=GCATCGATGAAGAACGCAGC
+
+grep $degenITS1f <(head -n 1000 leafR1_97)
+
+grep $ITS1fRC <(head -n 1000 leafR1_97)
+
+grep $ITS2RC <(head -n 1000 leafR1_97) | wc -l ## 0
+
+grep $ITS2RC <(head -n 1000 leafR2_97) | wc -l ## 14 out of 78,000 or so. 
+
+grep $ITS1fRC <(head -n 1000 leafR1_97) | wc -l
+
+cd /home/daniel/Documents/taiwan/taiwan_dada2/leaf_demult_fastx/R1_demult
+
+for i in leafR1*
+do 
+sed "s/$ITS1fRC.*$//" $i > runover_removed/$i.1
+echo $i.1
+done 
+
+
+cd /home/daniel/Documents/taiwan/taiwan_dada2/leaf_demult_fastx/R2_demult
+for i in leafR2*
+do 
+sed "s/$ITS2RC.*$//" $i > runover_removed/$i.1
+echo $i.1
+done 
+
+## but shit. how do we remove the accompanying qscore lengths?
+
+## we now need to check each sequence, and make sure qscore and 
+## sequence lengths match. Shit. 
+
+## probably python time. 
+
+## ok, prototype script ready. does it work?
+
+./remove_runover.py -p $ITS2RC -f <(head -n 1000 rearranged_leafR2.fastq) -o ~/testwrite.fastq
+
+## sanity checks:
+
+grep $ITS2RC rearranged_leafR2.fastq | wc -l &
+
+grep $ITS2RC <(head -n 1000 rearranged_leafR2.fastq) | wc -l
+
+grep $ITS2RC <(head -n 1000 rearranged_leafR2.fastq) -n ## lines 582 and 790
+
+## how do these look in our output?
+
+grep $ITS2RC testwrite.fastq ## nada
+
+sed -n '581,586p' <(head -n 1000 rearranged_leafR2.fastq) | grep $ITS2RC -A 2 -B 1
+##############################
+sed -n '581,586p' <(head -n 1000 rearranged_leafR2.fastq) 
+##############################
+sed -n '581,586p' testwrite.fastq
+
+sed -n '789,794p' <(head -n 1000 rearranged_leafR2.fastq) | grep $ITS2RC -A 2 -B 1
+##############################
+sed -n '789,794p' <(head -n 1000 rearranged_leafR2.fastq) 
+##############################
+sed -n '789,794p' testwrite.fastq
+
+## looks okay. Try it on our sequences...
+
+ITS1f=CTTGGTCATTTAGAGGAAGTAA
+degenITS1f=CTTGGT..TTT..A.G.A.TAA
+ITS1fRC=TTACTTCCTCTAAATGACCAAG
+ITS2=GCTGCGTTCTTCATCGATGC
+ITS2RC=GCATCGATGAAGAACGCAGC
+
+## now cycle through our demult files and get rid of these damn things...
+
+cd /home/daniel/Documents/taiwan/taiwan_dada2/leaf_demult_fastx/R2_demult
+
+for i in leafR2*
+do
+../../remove_runover.py -p $ITS2RC -f $i -o runover_removed/$i.1
+echo $i.1
+done
+
+## check R1
+
+grep $ITS1fRC * &
+
+## check R2
+
+grep $ITS1fRC * &
+
+## seems clean. Fastx will tell us if the qscores line up... 
+
+########## clip BOL primers, take 2 ##########
+
+expr length 'CCACATCTATCTGCTGCGTTCTTCATCGATGC'
+
+expr length 'CCCCATCATACCCTTGGTNATTTCGAGGCAGTAA'
+
+cp leafR1_94.1 test.fastq
+fastx_trimmer -i test.fastq -Q33 -f 33 -o BOLclippled/test.2.fastq
+## seems okay
+
+cd /home/daniel/Documents/taiwan/taiwan_dada2/leaf_demult_fastx/R1_demult/runover_removed
+
+for i in leafR1*
+do 
+fastx_trimmer -i $i -f 33 -o BOLclippled/${i:: -1}2
+echo BOLclippled/${i:: -1}2
+done 
+
+
+cd /home/daniel/Documents/taiwan/taiwan_dada2/leaf_demult_fastx/R2_demult/runover_removed
+
+for i in leafR2*
+do 
+fastx_trimmer -i $i -f 35 -o BOLclippled/${i:: -1}2
+echo BOLclippled/${i:: -1}2
+done 
+
+## did this work?
+
+cd /home/daniel/Documents/taiwan/taiwan_dada2/leaf_demult_fastx/R1_demult/runover_removed/BOL*
+
+sed -n '2p' <(head -n 20 R1_100) | grep $ITS2
+sed -n '2p' <(head -n 20 R1_100clipped)
+
+sed -n '2p' <(tail -n 4 R1_100) | grep $ITS2
+sed -n '2p' <(tail -n 4 R1_100clipped)
+
+## if this worked - remove the floating primers... another script?
+
+## think so, cuz fastq
+
+## god this is torturous. 
+
+## so end game for tonight?
+
+## get floating primer script ready - run it on wood reads, too?
+
+## problem with the wood reads is that they remove the entire 
+## read. How then do we maintain order in the files?
+
+## hmm, think perhaps this is a step I should wait on - maybe I
+## can slip it into the dada pipeline after merging paired ends?
+
+## otherwise, that's another half day of banging my head on 
+## python. 
+
+## so what else? can it be that I'm ready for the dada2 pipeline?
+
+## back up these demultiplexed, chopped sequences...
+
 
