@@ -951,4 +951,168 @@ sed -n '2p' <(tail -n 4 R1_100clipped)
 
 ## back up these demultiplexed, chopped sequences...
 
+########### wood reads ####################
+
+## look at wood reads - 
+## do they have primers? RC primers? With runover?
+## Are they uniform in size?
+## have sample BPs been cleaned off?
+
+
+## path to reads:
+
+wooddir=/home/daniel/Documents/taiwan/woodreads
+
+ITS1f=CTTGGTCATTTAGAGGAAGTAA
+degenITS1f=CTTGGT..TTT..A.G.A.TAA
+ITS1fRC=TTACTTCCTCTAAATGACCAAG
+ITS2=GCTGCGTTCTTCATCGATGC
+ITS2RC=GCATCGATGAAGAACGCAGC
+
+
+## uniform in size?
+
+sed -n '2p' <(head -n 10000 lane1-s254-index-GCATACAG-CCTAAGTCNNNN-133w_S254_L001_R2_001.fastq) | wc -c
+sed -n '122p' <(head -n 10000 lane1-s254-index-GCATACAG-CCTAAGTCNNNN-133w_S254_L001_R2_001.fastq) | wc -c >> 
+sed -n '1122p' <(head -n 10000 lane1-s254-index-GCATACAG-CCTAAGTCNNNN-133w_S254_L001_R2_001.fastq) | wc -c
+sed -n '1122p' <(head -n 10000 lane1-s254-index-GCATACAG-CCTAAGTCNNNN-133w_S254_L001_R1_001.fastq) | wc -c
+sed -n '1122p' <(head -n 10000 lane1-s195-index-CAACACCT-CCACTAAGNNNN-39w_S195_L001_R1_001.fastq) | wc -c
+sed -n '1122p' <(tail -n 10000 lane1-s195-index-CAACACCT-CCACTAAGNNNN-39w_S195_L001_R1_001.fastq) | wc -c
+sed -n '1122p' <(head -n 10000 lane1-s216-index-TCTCCGAT-AGCCGTAANNNN-72w_S216_L001_R1_001.fastq) | wc -c
+sed -n '1122p' <(tail -n 10000 lane1-s216-index-TCTCCGAT-AGCCGTAANNNN-72w_S216_L001_R1_001.fastq) | wc -c
+## seems like they're all 302 BP
+
+wc -l lane1-s254-index-GCATACAG-CCTAAGTCNNNN-133w_S254_L001_R2_001.fastq ## 217548 / 4 = 54,387 reads
+
+grep $ITS1fRC lane1-s254-index-GCATACAG-CCTAAGTCNNNN-133w_S254_L001_R2_001.fastq | wc -l
+## 13,451 - not unimportant.
+
+grep $ITS2 <(head -n 10000 lane1-s254-index-GCATACAG-CCTAAGTCNNNN-133w_S254_L001_R2_001.fastq)  | wc -l
+grep $ITS2 <(head -n 10000 lane1-s254-index-GCATACAG-CCTAAGTCNNNN-133w_S254_L001_R2_001.fastq)  | wc -l
+
+## so I guess we need to strip the reverse compliments and runover? 
+
+## I don't hear anyone else talking about this...
+## I wonder if it matters...
+
+## hope it doesn't come back to shoot me in the foot. Oh well, here we go
+
+#################
+
+## are BOL primers and barcodes clean?
+
+grep $ITS2 lane1-s254-index-GCATACAG-CCTAAGTCNNNN-133w_S254_L001_R2_001.fastq
+grep $ITS1f lane1-s232-index-TCTCCGAT-ACGAATCCNNNN-94w_S232_L001_R1_001.fastq
+
+
+grep $ITS2 <(head -n 10000 lane1-s254-index-GCATACAG-CCTAAGTCNNNN-133w_S254_L001_R2_001.fastq)
+
+grep $ITS1f <(head -n 10000 lane1-s254-index-GCATACAG-CCTAAGTCNNNN-133w_S254_L001_R2_001.fastq)
+
+
+grep -n $ITS1f lane1-s197-index-ACGACTTG-TGTTCCGTNNNN-45w_S197_L001_R1_001.fastq
+
+grep -n $ITS1fRC lane1-s197-index-ACGACTTG-TGTTCCGTNNNN-45w_S197_L001_R2_001.fastq
+
+
+## check some others:
+
+
+grep $ITS1f lane1-s197-index-ACGACTTG-TGTTCCGTNNNN-45w_S197_L001_R1_001.fastq | wc -l
+
+f=lane1-s240-index-TCTCCGAT-AATGGTCGNNNN-104w_S240_L001_R2_001.fastq
+barcode=$(cut <(echo $f) -d "-" -f 4,5 | sed 's/-//' | sed 's/N*//g')
+
+for i in *
+do 
+echo $i
+barcode=$(cut <(echo $i) -d "-" -f 4,5 | sed 's/-//' | sed 's/N*//g')
+echo $barcode found $(grep $barcode $i | wc -l) times
+##grep $barcode $i | wc -l
+done
+
+## okay, so let's get rid of the runover BP and reverse compliments 
+## on these wood reads:
+
+dd=/home/daniel/Documents/taiwan/taiwan_dada2
+
+cd /home/daniel/Documents/taiwan/woodreads/
+
+for i in *R1*
+do 
+$dd/remove_runover.py -p $ITS2RC -f $i -o $dd/wood_runover_removed/$i
+echo $i trimmed.
+done
+
+## for reverse reads, look for ITS1f reverse-compliment:
+for i in *R2*
+do 
+$dd/remove_runover.py -p $ITS1fRC -f $i -o $dd/wood_runover_removed/$i
+echo $i trimmed.
+done
+
+
+
+
+
+
+
+################################
+
+## dada2 time ...
+## use R... ugh...
+## we need to deal with the libraries
+## at a time, them combine them later
+## with phyloseq
+
+R
+
+library(dada2)
+
+packageVersion("dada2")
+
+leafPath <- "/home/daniel/Documents/taiwan/taiwan_dada2/reads"
+
+## maybe we should get these into the same directory?
+
+list.files(leafPath)
+
+getwd()
+
+## get string of the forwards and reverse in the same order:
+
+fnFs <- list.files(leafPath, pattern='R2', full.names=TRUE)
+
+fnRs <- list.files(leafPath, pattern='R1', full.names=TRUE)
+
+## check order 
+
+head(fnFs, n=25)
+
+head(fnRs, n=25)
+
+tail(fnFs, n=25)
+
+tail(fnRs, n=25)
+
+## get a list of sample names
+
+sample.names <- sapply(strsplit(basename(fnFs), '_'), '[', 2)
+## that's cool. use the square bracket as a function,
+## never done that before... a more elegant solution 
+## to unrolling a list than I've come up with...
+## but let's get rid of those ".2"s:
+sample.names <- sub('\\.2', '', sample.names)
+
+
+aa <- plotQualityProfile(fnFs[1])
+
+plotQualityProfile(fnFs[1:10])
+
+
+fnFs[seq(10,130,10)]
+
+plotQualityProfile(fnFs[seq(10,130,10)])
+
+
 
