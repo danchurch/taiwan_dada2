@@ -1109,10 +1109,120 @@ aa <- plotQualityProfile(fnFs[1])
 
 plotQualityProfile(fnFs[1:10])
 
-
 fnFs[seq(10,130,10)]
 
 plotQualityProfile(fnFs[seq(10,130,10)])
+
+##############################
+
+## filtering
+
+filt_path <- file.path(leafPath, "filtered")
+filtFs <- file.path(filt_path, paste0(sample.names, "_F_filt.fastq"))
+filtRs <- file.path(filt_path, paste0(sample.names, "_R_filt.fastq"))
+
+out <- filterAndTrim(fnFs, filtFs, fnRs, filtRs, truncLen=c(150,220),
+                    maxN=0, maxEE=c(2,2), truncQ=2, rm.phix=TRUE, multithread=FALSE)
+
+## shit. the filter command isn't working. I think it doesn't like 
+## our variable read lengths created by our removal of the RC primers 
+## and downstream BP. 
+
+## back up, just try it with BOL primers only clipped. 
+## we can check for the RC primers after the pipeline, 
+## along with the floating primers. 
+
+#################################
+
+## rebuild. Clip the demultiplexed fastqs:
+
+## for R1 reads, first bp is 33
+
+cd /home/daniel/Documents/taiwan/taiwan_dada2/reads
+
+for i in leafR1*
+do
+fastx_trimmer -i $i -f 33 -o dmult_BOLclipped/$i.fastq
+echo dmult_BOLclipped/$i.fastq
+done
+
+## and as a script, " R2clip.sh
+
+for i in leafR2*
+do
+fastx_trimmer -i $i -f 35 -o dmult_BOLclipped/$i.fastq
+echo dmult_BOLclipped/$i.fastq
+done
+
+at -f ./R2clip.sh -mv now + 45 minutes
+
+
+
+## wood reads... pretty much don't need to do anything, 
+## BOL primers already gone, and we're not getting 
+## rid of the others. 
+
+## rerun merge with these just-BOL-clipped reads, 
+## see if we get the same error,
+
+## if not, clean up the notebook and git 
+## and go to bed
+
+
+#############################
+
+## worked. so look at this:
+
+library(dada2)
+
+load("leafForwardFilterAndTrim.rda")
+
+aa <- c('zzop','mmop','ppop','hhop','wwop','ggop')
+bb <- c(5,2,9,4,1,6)
+cc <- c('z','m','p','h','w','g')
+dd <- data.frame(aa,bb,cc)
+
+dd[order(bb, decreasing=FALSE),]
+
+ee <- out[order(out[,1], decreasing=TRUE),]
+
+barplot(t(ee[1:50,]), 
+    beside=TRUE, 
+    col=c("blue","yellow"), 
+    axes=FALSE,
+    axisnames=FALSE,
+    xlab='samples',
+    ylab='read #',
+    )
+axis(2)
+legend(x="top", legend=c('before','after'), fill=c('blue','yellow'))
+
+barplot(t(ee), 
+    beside=TRUE, 
+    col=c("blue","yellow"), 
+    axes=FALSE,
+    axisnames=FALSE,
+    xlab='samples',
+    ylab='read #',
+    )
+axis(2)
+legend(x="top", legend=c('before','after'), fill=c('blue','yellow'))
+
+tout <- t(out[order(out[,1], decreasing=TRUE),])
+
+barplot(tout, 
+    beside=TRUE, 
+    col=c("blue","yellow"), 
+    axes=FALSE,
+    axisnames=FALSE,
+    xlab='samples',
+    ylab='read #',
+    )
+axis(2)
+legend(x="top", legend=c('before','after'), fill=c('blue','yellow'))
+## filtered reads at 
+
+filtered=/home/daniel/Documents/taiwan/taiwan_dada2/reads/dmult_BOLclipped/filtered
 
 
 
