@@ -1224,5 +1224,48 @@ legend(x="top", legend=c('before','after'), fill=c('blue','yellow'))
 
 filtered=/home/daniel/Documents/taiwan/taiwan_dada2/reads/dmult_BOLclipped/filtered
 
+## we want to do our dereplicating on the desktop. Can we set that up?
+
+## need our filtered files, etc. Script looks like:
+
+library('dada2')
+setwd('/home/daniel/Documents/submissions/taibioinfo/taiwan_dada2')
+load('sample.names.rda')
+filt_path <- "/home/daniel/Documents/submissions/taibioinfo/dada2_notgit/filtered"
+filtFs <- file.path(filt_path, paste0(sample.names, "_F_filt.fastq"))
+filtRs <- file.path(filt_path, paste0(sample.names, "_R_filt.fastq"))
+derepFs <- derepFastq(filtFs, verbose=TRUE)
+derepRs <- derepFastq(filtRs, verbose=TRUE)
+names(derepFs) <- sample.names
+names(derepRs) <- sample.names
+save(derepFs, file='derepFs.rda')
+save(derepRs, file='derepRs.rda')
+
+## psid 9385
+
+## seems to be working. let that sit...
+
+## looks like the extra memory helped.... get those files onto laptop
+
+## we want to do something similar for the merging. The script on
+## the optiplex will look something like:
 
 
+library('dada2')
+
+load('dadaFs.rda')
+load('dadaRs.rda')
+load('derepFs.rda')
+load('derepRs.rda')
+
+mergers <- mergePairs(dadaFs, derepFs, dadaRs, derepRs, verbose=TRUE)
+
+save(mergers, file='mergers.rda')
+
+
+###########
+
+(R CMD BATCH mergeends.R &) &
+## pid 9708
+## let that run, let's  go to sleep.
+## at some point, we need to clean up for git. 
