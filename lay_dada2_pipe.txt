@@ -1269,3 +1269,5 @@ save(mergers, file='mergers.rda')
 ## pid 9708
 ## let that run, let's  go to sleep.
 ## at some point, we need to clean up for git. 
+
+load('mergers.rda')
