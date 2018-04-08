@@ -1271,3 +1271,9 @@ save(mergers, file='mergers.rda')
 ## at some point, we need to clean up for git. 
 
 load('mergers.rda')
+
+seqtab <- makeSequenceTable(mergers)
+
+aa <- table(nchar(getSequences(seqtab)))
+
+barplot(aa)

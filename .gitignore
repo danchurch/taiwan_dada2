@@ -8,3 +8,4 @@ leaf_recombine/
 primers_clipped/
 reads/
 *.rda
+.RData
