@@ -1277,3 +1277,136 @@ seqtab <- makeSequenceTable(mergers)
 aa <- table(nchar(getSequences(seqtab)))
 
 barplot(aa)
+
+
+##############################
+
+## taxonomy
+
+## back to this can of worms. Unless things have changed
+## I think we need to get the newest UNITE database,
+## remove reads without classifications to at least 
+## class level. 
+
+## but dada2 trains its algorithms on a a "Training" set 
+## of reads... is this available for UNITE and will this 
+## cause problems?
+
+I think I understand to that UNITE provides two versionsof it's database. One, with ~58,000 sequences, I think has all sequences that have been successfully submitted to the database. Then there is a smaller fasta file with~ ~31,000 sequences, which has been trimmed to clustered"Species hypothesis", some 9000 of which have been vetted by experts in a taxonomic group (also in the larger. Singletons that are clustered to a SH elsewhereare discarded, I think. so which do we use? Let's stay with the more curated version...
+UNITE='/home/daniel/Documents/taiwan/UNITE/sh_general_release_dynamic_01.12.2017.fasta'
+
+## what does this look like?
+
+head -n 1 $UNITE
+
+## I think this needs to be changed so dada2 can parse 
+## it. Also, is there a way to check to see if many 
+## of these are missing class or lower classification?
+
+
+head -n 1000 $UNITE | less
+
+grep "c__unidentified" $UNITE | wc -l ## 1033
+
+grep "c__unidentified" $UNITE | grep "p__unidentified" | wc -l ## 601
+
+## if it is missing class id, it is missing genus 
+grep "c__unidentified" $UNITE | grep -v "g__unidentified" | wc -l ## 0
+grep "c__unidentified" $UNITE | grep "g__unidentified" | wc -l ## 1033
+
+## are these what we need to remove? 
+## seems simple... python time?
+
+## nah, fuggit. It's got a training algorithm, hopefully this means 
+## it can make tax assignments without needing a high match to one 
+## of the sequences in the DB. 
+
+## and the parsing might work as is. So before we launch a crusade, 
+## let's see if the out-of-box commands work
+
+
+## and oops too heavy for my computer....
+
+## can we farm this out to the desktop?
+
+## r script:
+
+
+#########################
+## leaftaxation.R
+
+library(dada2)
+
+load('dadaFs.rda')
+load('leafFilterAndTrim.rda')
+load('sample.names.rda')
+load('mergers.rda')
+load('seqtab.nochim.rda')
+
+taxa <- assignTaxonomy(seqtab.nochim, "sh_general_release_dynamic_01.12.2017.fasta" , multithread=TRUE)
+
+save(taxa, file='taxa.rda')
+
+#############################
+
+## scp this and the UNITE files  over to the desktop,
+## and let the old beast chew on it for a while
+
+R CMD BATCH leaftaxation.R
+
+## okay, what does this look like?
+
+R 
+library(dada2)
+load('leafFilterAndTrim.rda')
+load('sample.names.rda')
+load('mergers.rda')
+load('seqtab.nochim.rda')
+
+
+load('taxa.rda')
+
+str(taxa)
+
+taxa[[2]]
+
+head(taxa, n=1)
+
+
+## okay, so 7777 sequences, these are our ASVs?
+## then a tax table. 
+
+## how many of our ASVs were identified to species?
+
+rownames(taxa) ## our ASV sequences are our rownames
+
+colnames(taxa) ## taxonomic levels for colnames
+
+taxa[1,]
+
+bb = is.na(taxa)
+
+colSums(bb)/ nrow(bb)
+
+colSums(taxa)
+
+head(taxa[,"Phylum"])
+
+aa <- taxa[,"Phylum"]
+
+load('dadaFs.rda')
+load('dadaRs.rda')
+
+class(dadaFs)
+
+length(dadaFs)
+
+dadaFs[[1]]
+
+class(dadaFs[[2]])
+
+length(dadaFs[[2]])
+
+str(dadaFs[[2]][1])
+
+dadaFs[[2]][1]
