@@ -1410,3 +1410,31 @@ length(dadaFs[[2]])
 str(dadaFs[[2]][1])
 
 dadaFs[[2]][1]
+
+
+############### wood reads into dada2 pipe #########################
+
+## okay, run the wood reads through
+
+R 
+
+library('dada2')
+
+wooddir <- '/home/daniel/Documents/taiwan/woodreads'
+
+## get the forwards (R1):
+
+fnFs <- list.files(wooddir, pattern="_R1_001.fastq", full.names = TRUE)
+fnRs <- list.files(wooddir, pattern="_R2_001.fastq", full.names = TRUE)
+
+## we want to get a string of sample names from our files names:
+
+get_sampname <- function(stri){
+    bb <- strsplit(stri, "NNNN-")[[1]][2]
+    cc <- strsplit(bb, "_")[[1]][1]
+    return(cc) }
+
+
+wood.sample.names <- unname(sapply(fnFs, get_sampname))
+
+
