@@ -1437,4 +1437,21 @@ get_sampname <- function(stri){
 
 wood.sample.names <- unname(sapply(fnFs, get_sampname))
 
+####################################
+
+## script for filtering/trimming wood reads:
+
+library('dada2')
+
+load("")
+
+wood_filt_path <- file.path("/home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered")
+wood_filtFs <- file.path(wood_filt_path, paste0(woodSampleNames, "_F_filt.fastq"))
+wood_filtRs <- file.path(wood_filt_path, paste0(woodSampleNames, "_R_filt.fastq"))
+
+wood_out <- filterAndTrim(wood_fnFs, wood_filtFs, wood_fnRs, wood_filtRs, truncLen=c(255,210),
+                    maxN=0, maxEE=c(2,2), truncQ=2, rm.phix=TRUE, multithread=FALSE)
+
+
+####################################
 

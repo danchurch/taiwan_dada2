@@ -1,0 +1,433 @@
+
+R version 3.4.4 (2018-03-15) -- "Someone to Lean On"
+Copyright (C) 2018 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> ## derep_wood.R
+> 
+> library('dada2')
+Loading required package: Rcpp
+> 
+> load("woodSampleNames.rda")
+> 
+> wood_filt_path <- file.path("/home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered")
+> wood_filtFs <- file.path(wood_filt_path, paste0(woodSampleNames, "_F_filt.fastq"))
+> wood_filtRs <- file.path(wood_filt_path, paste0(woodSampleNames, "_R_filt.fastq"))
+> 
+> derepFs <- derepFastq(wood_filtFs, verbose=TRUE)
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/Dc-X_F_filt.fastq
+Encountered 11740 unique sequences from 58484 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/Dc-PosG_F_filt.fastq
+Encountered 12221 unique sequences from 40663 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/Dc-PosI_F_filt.fastq
+Encountered 11291 unique sequences from 33645 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/Dc-Neg_F_filt.fastq
+Encountered 5434 unique sequences from 14405 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/1w_F_filt.fastq
+Encountered 13356 unique sequences from 31031 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/2w_F_filt.fastq
+Encountered 15722 unique sequences from 39580 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/3w_F_filt.fastq
+Encountered 11497 unique sequences from 24824 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/4w_F_filt.fastq
+Encountered 16063 unique sequences from 43399 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/5w_F_filt.fastq
+Encountered 12249 unique sequences from 25496 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/7w_F_filt.fastq
+Encountered 17776 unique sequences from 47228 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/9w_F_filt.fastq
+Encountered 15505 unique sequences from 42900 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/10w_F_filt.fastq
+Encountered 13450 unique sequences from 41538 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/11w_F_filt.fastq
+Encountered 15071 unique sequences from 33354 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/13w_F_filt.fastq
+Encountered 10779 unique sequences from 27864 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/14w_F_filt.fastq
+Encountered 13099 unique sequences from 28129 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/15w_F_filt.fastq
+Encountered 13148 unique sequences from 27949 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/16w_F_filt.fastq
+Encountered 9067 unique sequences from 18317 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/17w_F_filt.fastq
+Encountered 18302 unique sequences from 43443 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/18w_F_filt.fastq
+Encountered 19182 unique sequences from 45046 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/19w_F_filt.fastq
+Encountered 12211 unique sequences from 29858 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/20w_F_filt.fastq
+Encountered 6881 unique sequences from 13184 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/21w_F_filt.fastq
+Encountered 16142 unique sequences from 40741 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/23w_F_filt.fastq
+Encountered 10011 unique sequences from 46398 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/25w_F_filt.fastq
+Encountered 13936 unique sequences from 32103 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/26w_F_filt.fastq
+Encountered 21040 unique sequences from 57833 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/27w_F_filt.fastq
+Encountered 14469 unique sequences from 42263 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/28w_F_filt.fastq
+Encountered 17307 unique sequences from 39327 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/29w_F_filt.fastq
+Encountered 19420 unique sequences from 51592 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/30w_F_filt.fastq
+Encountered 17176 unique sequences from 49946 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/31w_F_filt.fastq
+Encountered 17176 unique sequences from 63427 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/32w_F_filt.fastq
+Encountered 13637 unique sequences from 30865 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/35w_F_filt.fastq
+Encountered 14908 unique sequences from 31971 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/36w_F_filt.fastq
+Encountered 16093 unique sequences from 36628 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/37w_F_filt.fastq
+Encountered 15693 unique sequences from 49433 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/38w_F_filt.fastq
+Encountered 14599 unique sequences from 32547 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/39w_F_filt.fastq
+Encountered 21449 unique sequences from 47589 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/42w_F_filt.fastq
+Encountered 17422 unique sequences from 37791 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/45w_F_filt.fastq
+Encountered 10206 unique sequences from 18966 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/46w_F_filt.fastq
+Encountered 15339 unique sequences from 36258 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/49w_F_filt.fastq
+Encountered 13792 unique sequences from 29795 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/50w_F_filt.fastq
+Encountered 21753 unique sequences from 59393 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/52w_F_filt.fastq
+Encountered 14722 unique sequences from 36469 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/55w_F_filt.fastq
+Encountered 16044 unique sequences from 30814 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/56w_F_filt.fastq
+Encountered 16068 unique sequences from 38910 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/57w_F_filt.fastq
+Encountered 15833 unique sequences from 36295 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/58w_F_filt.fastq
+Encountered 20052 unique sequences from 50977 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/59w_F_filt.fastq
+Encountered 15807 unique sequences from 37045 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/60w_F_filt.fastq
+Encountered 15485 unique sequences from 34208 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/61w_F_filt.fastq
+Encountered 17258 unique sequences from 42472 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/64w_F_filt.fastq
+Encountered 18986 unique sequences from 47960 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/66w_F_filt.fastq
+Encountered 9366 unique sequences from 22002 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/67w_F_filt.fastq
+Encountered 3500 unique sequences from 8021 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/68w_F_filt.fastq
+Encountered 15473 unique sequences from 38685 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/69w_F_filt.fastq
+Encountered 15813 unique sequences from 36298 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/70w_F_filt.fastq
+Encountered 13238 unique sequences from 32606 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/71w_F_filt.fastq
+Encountered 13495 unique sequences from 38492 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/72w_F_filt.fastq
+Encountered 14941 unique sequences from 41180 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/73w_F_filt.fastq
+Encountered 16371 unique sequences from 38675 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/74w_F_filt.fastq
+Encountered 20786 unique sequences from 55040 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/75w_F_filt.fastq
+Encountered 11008 unique sequences from 22515 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/76w_F_filt.fastq
+Encountered 13834 unique sequences from 39700 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/79w_F_filt.fastq
+Encountered 21683 unique sequences from 45575 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/81w_F_filt.fastq
+Encountered 16490 unique sequences from 43817 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/82w_F_filt.fastq
+Encountered 14817 unique sequences from 43630 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/84w_F_filt.fastq
+Encountered 17656 unique sequences from 53507 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/85w_F_filt.fastq
+Encountered 15388 unique sequences from 38523 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/86w_F_filt.fastq
+Encountered 11928 unique sequences from 27910 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/87w_F_filt.fastq
+Encountered 10467 unique sequences from 25420 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/88w_F_filt.fastq
+Encountered 14581 unique sequences from 57546 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/89w_F_filt.fastq
+Encountered 15284 unique sequences from 43857 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/92w_F_filt.fastq
+Encountered 13513 unique sequences from 40836 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/93w_F_filt.fastq
+Encountered 14019 unique sequences from 35077 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/94w_F_filt.fastq
+Encountered 12611 unique sequences from 32409 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/95w_F_filt.fastq
+Encountered 3675 unique sequences from 8065 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/96w_F_filt.fastq
+Encountered 9131 unique sequences from 20110 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/97w_F_filt.fastq
+Encountered 9240 unique sequences from 21307 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/99w_F_filt.fastq
+Encountered 10101 unique sequences from 22556 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/100w_F_filt.fastq
+Encountered 11114 unique sequences from 27041 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/101w_F_filt.fastq
+Encountered 16242 unique sequences from 32596 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/102w_F_filt.fastq
+Encountered 9358 unique sequences from 24180 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/104w_F_filt.fastq
+Encountered 15246 unique sequences from 35330 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/106w_F_filt.fastq
+Encountered 8080 unique sequences from 16266 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/107w_F_filt.fastq
+Encountered 6590 unique sequences from 15830 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/108w_F_filt.fastq
+Encountered 10166 unique sequences from 27011 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/109w_F_filt.fastq
+Encountered 12057 unique sequences from 26640 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/114w_F_filt.fastq
+Encountered 8996 unique sequences from 20265 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/115w_F_filt.fastq
+Encountered 13102 unique sequences from 26200 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/121w_F_filt.fastq
+Encountered 11058 unique sequences from 43103 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/124w_F_filt.fastq
+Encountered 13688 unique sequences from 33960 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/125w_F_filt.fastq
+Encountered 16344 unique sequences from 40897 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/128w_F_filt.fastq
+Encountered 11777 unique sequences from 45211 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/129w_F_filt.fastq
+Encountered 15229 unique sequences from 32832 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/130w_F_filt.fastq
+Encountered 8829 unique sequences from 26000 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/131w_F_filt.fastq
+Encountered 14153 unique sequences from 27811 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/133w_F_filt.fastq
+Encountered 12261 unique sequences from 33104 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/Neg_F_filt.fastq
+Encountered 704 unique sequences from 1359 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/PosG_F_filt.fastq
+Encountered 13296 unique sequences from 54413 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/PosI_F_filt.fastq
+Encountered 12040 unique sequences from 36545 total sequences read.
+> 
+> derepRs <- derepFastq(wood_filtRs, verbose=TRUE)
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/Dc-X_R_filt.fastq
+Encountered 9225 unique sequences from 58484 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/Dc-PosG_R_filt.fastq
+Encountered 11140 unique sequences from 40663 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/Dc-PosI_R_filt.fastq
+Encountered 10219 unique sequences from 33645 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/Dc-Neg_R_filt.fastq
+Encountered 4626 unique sequences from 14405 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/1w_R_filt.fastq
+Encountered 11976 unique sequences from 31031 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/2w_R_filt.fastq
+Encountered 13505 unique sequences from 39580 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/3w_R_filt.fastq
+Encountered 10075 unique sequences from 24824 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/4w_R_filt.fastq
+Encountered 13374 unique sequences from 43399 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/5w_R_filt.fastq
+Encountered 10316 unique sequences from 25496 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/7w_R_filt.fastq
+Encountered 15295 unique sequences from 47228 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/9w_R_filt.fastq
+Encountered 13629 unique sequences from 42900 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/10w_R_filt.fastq
+Encountered 11665 unique sequences from 41538 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/11w_R_filt.fastq
+Encountered 13274 unique sequences from 33354 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/13w_R_filt.fastq
+Encountered 8782 unique sequences from 27864 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/14w_R_filt.fastq
+Encountered 11468 unique sequences from 28129 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/15w_R_filt.fastq
+Encountered 11015 unique sequences from 27949 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/16w_R_filt.fastq
+Encountered 8170 unique sequences from 18317 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/17w_R_filt.fastq
+Encountered 15341 unique sequences from 43443 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/18w_R_filt.fastq
+Encountered 15841 unique sequences from 45046 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/19w_R_filt.fastq
+Encountered 10970 unique sequences from 29858 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/20w_R_filt.fastq
+Encountered 5817 unique sequences from 13184 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/21w_R_filt.fastq
+Encountered 14015 unique sequences from 40741 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/23w_R_filt.fastq
+Encountered 7092 unique sequences from 46398 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/25w_R_filt.fastq
+Encountered 12342 unique sequences from 32103 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/26w_R_filt.fastq
+Encountered 17131 unique sequences from 57833 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/27w_R_filt.fastq
+Encountered 12801 unique sequences from 42263 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/28w_R_filt.fastq
+Encountered 13878 unique sequences from 39327 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/29w_R_filt.fastq
+Encountered 17130 unique sequences from 51592 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/30w_R_filt.fastq
+Encountered 13367 unique sequences from 49946 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/31w_R_filt.fastq
+Encountered 14184 unique sequences from 63427 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/32w_R_filt.fastq
+Encountered 11846 unique sequences from 30865 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/35w_R_filt.fastq
+Encountered 12843 unique sequences from 31971 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/36w_R_filt.fastq
+Encountered 13151 unique sequences from 36628 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/37w_R_filt.fastq
+Encountered 12552 unique sequences from 49433 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/38w_R_filt.fastq
+Encountered 12403 unique sequences from 32547 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/39w_R_filt.fastq
+Encountered 18521 unique sequences from 47589 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/42w_R_filt.fastq
+Encountered 14614 unique sequences from 37791 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/45w_R_filt.fastq
+Encountered 8354 unique sequences from 18966 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/46w_R_filt.fastq
+Encountered 13286 unique sequences from 36258 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/49w_R_filt.fastq
+Encountered 12092 unique sequences from 29795 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/50w_R_filt.fastq
+Encountered 18316 unique sequences from 59393 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/52w_R_filt.fastq
+Encountered 13000 unique sequences from 36469 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/55w_R_filt.fastq
+Encountered 12810 unique sequences from 30814 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/56w_R_filt.fastq
+Encountered 13015 unique sequences from 38910 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/57w_R_filt.fastq
+Encountered 12900 unique sequences from 36295 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/58w_R_filt.fastq
+Encountered 16558 unique sequences from 50977 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/59w_R_filt.fastq
+Encountered 13958 unique sequences from 37045 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/60w_R_filt.fastq
+Encountered 12848 unique sequences from 34208 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/61w_R_filt.fastq
+Encountered 15151 unique sequences from 42472 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/64w_R_filt.fastq
+Encountered 16072 unique sequences from 47960 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/66w_R_filt.fastq
+Encountered 8121 unique sequences from 22002 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/67w_R_filt.fastq
+Encountered 2858 unique sequences from 8021 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/68w_R_filt.fastq
+Encountered 12802 unique sequences from 38685 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/69w_R_filt.fastq
+Encountered 13373 unique sequences from 36298 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/70w_R_filt.fastq
+Encountered 11913 unique sequences from 32606 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/71w_R_filt.fastq
+Encountered 10532 unique sequences from 38492 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/72w_R_filt.fastq
+Encountered 11942 unique sequences from 41180 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/73w_R_filt.fastq
+Encountered 13559 unique sequences from 38675 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/74w_R_filt.fastq
+Encountered 16679 unique sequences from 55040 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/75w_R_filt.fastq
+Encountered 9494 unique sequences from 22515 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/76w_R_filt.fastq
+Encountered 12522 unique sequences from 39700 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/79w_R_filt.fastq
+Encountered 18779 unique sequences from 45575 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/81w_R_filt.fastq
+Encountered 14443 unique sequences from 43817 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/82w_R_filt.fastq
+Encountered 12145 unique sequences from 43630 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/84w_R_filt.fastq
+Encountered 13982 unique sequences from 53507 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/85w_R_filt.fastq
+Encountered 13279 unique sequences from 38523 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/86w_R_filt.fastq
+Encountered 10306 unique sequences from 27910 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/87w_R_filt.fastq
+Encountered 9332 unique sequences from 25420 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/88w_R_filt.fastq
+Encountered 12016 unique sequences from 57546 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/89w_R_filt.fastq
+Encountered 12486 unique sequences from 43857 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/92w_R_filt.fastq
+Encountered 11537 unique sequences from 40836 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/93w_R_filt.fastq
+Encountered 12791 unique sequences from 35077 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/94w_R_filt.fastq
+Encountered 12335 unique sequences from 32409 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/95w_R_filt.fastq
+Encountered 3494 unique sequences from 8065 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/96w_R_filt.fastq
+Encountered 7691 unique sequences from 20110 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/97w_R_filt.fastq
+Encountered 7961 unique sequences from 21307 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/99w_R_filt.fastq
+Encountered 8753 unique sequences from 22556 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/100w_R_filt.fastq
+Encountered 10074 unique sequences from 27041 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/101w_R_filt.fastq
+Encountered 14645 unique sequences from 32596 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/102w_R_filt.fastq
+Encountered 8544 unique sequences from 24180 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/104w_R_filt.fastq
+Encountered 12587 unique sequences from 35330 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/106w_R_filt.fastq
+Encountered 6899 unique sequences from 16266 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/107w_R_filt.fastq
+Encountered 5696 unique sequences from 15830 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/108w_R_filt.fastq
+Encountered 9218 unique sequences from 27011 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/109w_R_filt.fastq
+Encountered 10283 unique sequences from 26640 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/114w_R_filt.fastq
+Encountered 7551 unique sequences from 20265 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/115w_R_filt.fastq
+Encountered 9459 unique sequences from 26200 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/121w_R_filt.fastq
+Encountered 8371 unique sequences from 43103 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/124w_R_filt.fastq
+Encountered 12082 unique sequences from 33960 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/125w_R_filt.fastq
+Encountered 14209 unique sequences from 40897 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/128w_R_filt.fastq
+Encountered 10930 unique sequences from 45211 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/129w_R_filt.fastq
+Encountered 13218 unique sequences from 32832 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/130w_R_filt.fastq
+Encountered 7938 unique sequences from 26000 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/131w_R_filt.fastq
+Encountered 10260 unique sequences from 27811 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/133w_R_filt.fastq
+Encountered 9970 unique sequences from 33104 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/Neg_R_filt.fastq
+Encountered 636 unique sequences from 1359 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/PosG_R_filt.fastq
+Encountered 12057 unique sequences from 54413 total sequences read.
+Dereplicating sequence entries in Fastq file: /home/daniel/Documents/submissions/taibioinfo/taiwan_dada2/woodReadsFiltered/PosI_R_filt.fastq
+Encountered 10199 unique sequences from 36545 total sequences read.
+> 
+> save(derepFs, file='derepFs.rda')
+> save(derepRs, file='derepRs.rda')
+> 
+> 
+> proc.time()
+   user  system elapsed 
+300.761   5.671 309.833 
