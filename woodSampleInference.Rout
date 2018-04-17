@@ -1,0 +1,234 @@
+
+R version 3.4.4 (2018-03-15) -- "Someone to Lean On"
+Copyright (C) 2018 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library('dada2')
+Loading required package: Rcpp
+> 
+> load('wood_errF.rda')
+> load('wood_errR.rda')
+> 
+> load('derepFs.rda')
+> woodDadaFs <- dada(derepFs, err=wood_errF, multithread=TRUE)
+Sample 1 - 58484 reads in 11740 unique sequences.
+Sample 2 - 40663 reads in 12221 unique sequences.
+Sample 3 - 33645 reads in 11291 unique sequences.
+Sample 4 - 14405 reads in 5434 unique sequences.
+Sample 5 - 31031 reads in 13356 unique sequences.
+Sample 6 - 39580 reads in 15722 unique sequences.
+Sample 7 - 24824 reads in 11497 unique sequences.
+Sample 8 - 43399 reads in 16063 unique sequences.
+Sample 9 - 25496 reads in 12249 unique sequences.
+Sample 10 - 47228 reads in 17776 unique sequences.
+Sample 11 - 42900 reads in 15505 unique sequences.
+Sample 12 - 41538 reads in 13450 unique sequences.
+Sample 13 - 33354 reads in 15071 unique sequences.
+Sample 14 - 27864 reads in 10779 unique sequences.
+Sample 15 - 28129 reads in 13099 unique sequences.
+Sample 16 - 27949 reads in 13148 unique sequences.
+Sample 17 - 18317 reads in 9067 unique sequences.
+Sample 18 - 43443 reads in 18302 unique sequences.
+Sample 19 - 45046 reads in 19182 unique sequences.
+Sample 20 - 29858 reads in 12211 unique sequences.
+Sample 21 - 13184 reads in 6881 unique sequences.
+Sample 22 - 40741 reads in 16142 unique sequences.
+Sample 23 - 46398 reads in 10011 unique sequences.
+Sample 24 - 32103 reads in 13936 unique sequences.
+Sample 25 - 57833 reads in 21040 unique sequences.
+Sample 26 - 42263 reads in 14469 unique sequences.
+Sample 27 - 39327 reads in 17307 unique sequences.
+Sample 28 - 51592 reads in 19420 unique sequences.
+Sample 29 - 49946 reads in 17176 unique sequences.
+Sample 30 - 63427 reads in 17176 unique sequences.
+Sample 31 - 30865 reads in 13637 unique sequences.
+Sample 32 - 31971 reads in 14908 unique sequences.
+Sample 33 - 36628 reads in 16093 unique sequences.
+Sample 34 - 49433 reads in 15693 unique sequences.
+Sample 35 - 32547 reads in 14599 unique sequences.
+Sample 36 - 47589 reads in 21449 unique sequences.
+Sample 37 - 37791 reads in 17422 unique sequences.
+Sample 38 - 18966 reads in 10206 unique sequences.
+Sample 39 - 36258 reads in 15339 unique sequences.
+Sample 40 - 29795 reads in 13792 unique sequences.
+Sample 41 - 59393 reads in 21753 unique sequences.
+Sample 42 - 36469 reads in 14722 unique sequences.
+Sample 43 - 30814 reads in 16044 unique sequences.
+Sample 44 - 38910 reads in 16068 unique sequences.
+Sample 45 - 36295 reads in 15833 unique sequences.
+Sample 46 - 50977 reads in 20052 unique sequences.
+Sample 47 - 37045 reads in 15807 unique sequences.
+Sample 48 - 34208 reads in 15485 unique sequences.
+Sample 49 - 42472 reads in 17258 unique sequences.
+Sample 50 - 47960 reads in 18986 unique sequences.
+Sample 51 - 22002 reads in 9366 unique sequences.
+Sample 52 - 8021 reads in 3500 unique sequences.
+Sample 53 - 38685 reads in 15473 unique sequences.
+Sample 54 - 36298 reads in 15813 unique sequences.
+Sample 55 - 32606 reads in 13238 unique sequences.
+Sample 56 - 38492 reads in 13495 unique sequences.
+Sample 57 - 41180 reads in 14941 unique sequences.
+Sample 58 - 38675 reads in 16371 unique sequences.
+Sample 59 - 55040 reads in 20786 unique sequences.
+Sample 60 - 22515 reads in 11008 unique sequences.
+Sample 61 - 39700 reads in 13834 unique sequences.
+Sample 62 - 45575 reads in 21683 unique sequences.
+Sample 63 - 43817 reads in 16490 unique sequences.
+Sample 64 - 43630 reads in 14817 unique sequences.
+Sample 65 - 53507 reads in 17656 unique sequences.
+Sample 66 - 38523 reads in 15388 unique sequences.
+Sample 67 - 27910 reads in 11928 unique sequences.
+Sample 68 - 25420 reads in 10467 unique sequences.
+Sample 69 - 57546 reads in 14581 unique sequences.
+Sample 70 - 43857 reads in 15284 unique sequences.
+Sample 71 - 40836 reads in 13513 unique sequences.
+Sample 72 - 35077 reads in 14019 unique sequences.
+Sample 73 - 32409 reads in 12611 unique sequences.
+Sample 74 - 8065 reads in 3675 unique sequences.
+Sample 75 - 20110 reads in 9131 unique sequences.
+Sample 76 - 21307 reads in 9240 unique sequences.
+Sample 77 - 22556 reads in 10101 unique sequences.
+Sample 78 - 27041 reads in 11114 unique sequences.
+Sample 79 - 32596 reads in 16242 unique sequences.
+Sample 80 - 24180 reads in 9358 unique sequences.
+Sample 81 - 35330 reads in 15246 unique sequences.
+Sample 82 - 16266 reads in 8080 unique sequences.
+Sample 83 - 15830 reads in 6590 unique sequences.
+Sample 84 - 27011 reads in 10166 unique sequences.
+Sample 85 - 26640 reads in 12057 unique sequences.
+Sample 86 - 20265 reads in 8996 unique sequences.
+Sample 87 - 26200 reads in 13102 unique sequences.
+Sample 88 - 43103 reads in 11058 unique sequences.
+Sample 89 - 33960 reads in 13688 unique sequences.
+Sample 90 - 40897 reads in 16344 unique sequences.
+Sample 91 - 45211 reads in 11777 unique sequences.
+Sample 92 - 32832 reads in 15229 unique sequences.
+Sample 93 - 26000 reads in 8829 unique sequences.
+Sample 94 - 27811 reads in 14153 unique sequences.
+Sample 95 - 33104 reads in 12261 unique sequences.
+Sample 96 - 1359 reads in 704 unique sequences.
+Sample 97 - 54413 reads in 13296 unique sequences.
+Sample 98 - 36545 reads in 12040 unique sequences.
+> rm('derepFs')
+> 
+> load('derepRs.rda')
+> woodDadaRs <- dada(derepRs, err=wood_errR, multithread=TRUE)
+Sample 1 - 58484 reads in 9225 unique sequences.
+Sample 2 - 40663 reads in 11140 unique sequences.
+Sample 3 - 33645 reads in 10219 unique sequences.
+Sample 4 - 14405 reads in 4626 unique sequences.
+Sample 5 - 31031 reads in 11976 unique sequences.
+Sample 6 - 39580 reads in 13505 unique sequences.
+Sample 7 - 24824 reads in 10075 unique sequences.
+Sample 8 - 43399 reads in 13374 unique sequences.
+Sample 9 - 25496 reads in 10316 unique sequences.
+Sample 10 - 47228 reads in 15295 unique sequences.
+Sample 11 - 42900 reads in 13629 unique sequences.
+Sample 12 - 41538 reads in 11665 unique sequences.
+Sample 13 - 33354 reads in 13274 unique sequences.
+Sample 14 - 27864 reads in 8782 unique sequences.
+Sample 15 - 28129 reads in 11468 unique sequences.
+Sample 16 - 27949 reads in 11015 unique sequences.
+Sample 17 - 18317 reads in 8170 unique sequences.
+Sample 18 - 43443 reads in 15341 unique sequences.
+Sample 19 - 45046 reads in 15841 unique sequences.
+Sample 20 - 29858 reads in 10970 unique sequences.
+Sample 21 - 13184 reads in 5817 unique sequences.
+Sample 22 - 40741 reads in 14015 unique sequences.
+Sample 23 - 46398 reads in 7092 unique sequences.
+Sample 24 - 32103 reads in 12342 unique sequences.
+Sample 25 - 57833 reads in 17131 unique sequences.
+Sample 26 - 42263 reads in 12801 unique sequences.
+Sample 27 - 39327 reads in 13878 unique sequences.
+Sample 28 - 51592 reads in 17130 unique sequences.
+Sample 29 - 49946 reads in 13367 unique sequences.
+Sample 30 - 63427 reads in 14184 unique sequences.
+Sample 31 - 30865 reads in 11846 unique sequences.
+Sample 32 - 31971 reads in 12843 unique sequences.
+Sample 33 - 36628 reads in 13151 unique sequences.
+Sample 34 - 49433 reads in 12552 unique sequences.
+Sample 35 - 32547 reads in 12403 unique sequences.
+Sample 36 - 47589 reads in 18521 unique sequences.
+Sample 37 - 37791 reads in 14614 unique sequences.
+Sample 38 - 18966 reads in 8354 unique sequences.
+Sample 39 - 36258 reads in 13286 unique sequences.
+Sample 40 - 29795 reads in 12092 unique sequences.
+Sample 41 - 59393 reads in 18316 unique sequences.
+Sample 42 - 36469 reads in 13000 unique sequences.
+Sample 43 - 30814 reads in 12810 unique sequences.
+Sample 44 - 38910 reads in 13015 unique sequences.
+Sample 45 - 36295 reads in 12900 unique sequences.
+Sample 46 - 50977 reads in 16558 unique sequences.
+Sample 47 - 37045 reads in 13958 unique sequences.
+Sample 48 - 34208 reads in 12848 unique sequences.
+Sample 49 - 42472 reads in 15151 unique sequences.
+Sample 50 - 47960 reads in 16072 unique sequences.
+Sample 51 - 22002 reads in 8121 unique sequences.
+Sample 52 - 8021 reads in 2858 unique sequences.
+Sample 53 - 38685 reads in 12802 unique sequences.
+Sample 54 - 36298 reads in 13373 unique sequences.
+Sample 55 - 32606 reads in 11913 unique sequences.
+Sample 56 - 38492 reads in 10532 unique sequences.
+Sample 57 - 41180 reads in 11942 unique sequences.
+Sample 58 - 38675 reads in 13559 unique sequences.
+Sample 59 - 55040 reads in 16679 unique sequences.
+Sample 60 - 22515 reads in 9494 unique sequences.
+Sample 61 - 39700 reads in 12522 unique sequences.
+Sample 62 - 45575 reads in 18779 unique sequences.
+Sample 63 - 43817 reads in 14443 unique sequences.
+Sample 64 - 43630 reads in 12145 unique sequences.
+Sample 65 - 53507 reads in 13982 unique sequences.
+Sample 66 - 38523 reads in 13279 unique sequences.
+Sample 67 - 27910 reads in 10306 unique sequences.
+Sample 68 - 25420 reads in 9332 unique sequences.
+Sample 69 - 57546 reads in 12016 unique sequences.
+Sample 70 - 43857 reads in 12486 unique sequences.
+Sample 71 - 40836 reads in 11537 unique sequences.
+Sample 72 - 35077 reads in 12791 unique sequences.
+Sample 73 - 32409 reads in 12335 unique sequences.
+Sample 74 - 8065 reads in 3494 unique sequences.
+Sample 75 - 20110 reads in 7691 unique sequences.
+Sample 76 - 21307 reads in 7961 unique sequences.
+Sample 77 - 22556 reads in 8753 unique sequences.
+Sample 78 - 27041 reads in 10074 unique sequences.
+Sample 79 - 32596 reads in 14645 unique sequences.
+Sample 80 - 24180 reads in 8544 unique sequences.
+Sample 81 - 35330 reads in 12587 unique sequences.
+Sample 82 - 16266 reads in 6899 unique sequences.
+Sample 83 - 15830 reads in 5696 unique sequences.
+Sample 84 - 27011 reads in 9218 unique sequences.
+Sample 85 - 26640 reads in 10283 unique sequences.
+Sample 86 - 20265 reads in 7551 unique sequences.
+Sample 87 - 26200 reads in 9459 unique sequences.
+Sample 88 - 43103 reads in 8371 unique sequences.
+Sample 89 - 33960 reads in 12082 unique sequences.
+Sample 90 - 40897 reads in 14209 unique sequences.
+Sample 91 - 45211 reads in 10930 unique sequences.
+Sample 92 - 32832 reads in 13218 unique sequences.
+Sample 93 - 26000 reads in 7938 unique sequences.
+Sample 94 - 27811 reads in 10260 unique sequences.
+Sample 95 - 33104 reads in 9970 unique sequences.
+Sample 96 - 1359 reads in 636 unique sequences.
+Sample 97 - 54413 reads in 12057 unique sequences.
+Sample 98 - 36545 reads in 10199 unique sequences.
+> 
+> save(woodDadaFs, file='woodDadaFs.rda')
+> save(woodDadaRs, file='woodDadaRs.rda')
+> 
+> proc.time()
+    user   system  elapsed 
+7337.317   18.829 2653.791 

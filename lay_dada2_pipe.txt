@@ -1455,3 +1455,24 @@ wood_out <- filterAndTrim(wood_fnFs, wood_filtFs, wood_fnRs, wood_filtRs, truncL
 
 ####################################
 
+## merge wood:
+
+mergers <- mergePairs(woodDadaFs, derepFs, woodDadaRs, derepRs, verbose=TRUE)
+
+
+## woodTaxation.R
+#################################
+
+library('dada2')
+
+load('woodSeqtab.nochim.rda')
+
+UNITE='/home/daniel/Documents/taiwan/UNITE/sh_general_release_dynamic_01.12.2017.fasta'
+
+woodTaxa <- assignTaxonomy(woodSeqtab.nochim, UNITE, multithread=TRUE)
+
+save(woodTaxa, file = 'woodTaxa.rda')
+
+################################
+
+## that's gonna chew a while, time for bed.

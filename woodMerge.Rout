@@ -1,0 +1,135 @@
+
+R version 3.4.4 (2018-03-15) -- "Someone to Lean On"
+Copyright (C) 2018 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> rm(list=ls())
+> 
+> library('dada2')
+Loading required package: Rcpp
+> 
+> load('woodDadaFs.rda')
+> load('derepFs.rda')
+> load('woodDadaRs.rda')
+> load('derepRs.rda')
+> 
+> woodMergers <- mergePairs(woodDadaFs, derepFs, woodDadaRs, derepRs, verbose=TRUE)
+56913 paired-reads (in 8 unique pairings) successfully merged out of 58484 (in 23 pairings) input.
+39152 paired-reads (in 39 unique pairings) successfully merged out of 40663 (in 74 pairings) input.
+33345 paired-reads (in 32 unique pairings) successfully merged out of 33645 (in 55 pairings) input.
+14320 paired-reads (in 23 unique pairings) successfully merged out of 14405 (in 31 pairings) input.
+26612 paired-reads (in 288 unique pairings) successfully merged out of 31031 (in 354 pairings) input.
+38468 paired-reads (in 213 unique pairings) successfully merged out of 39580 (in 266 pairings) input.
+22139 paired-reads (in 436 unique pairings) successfully merged out of 24824 (in 682 pairings) input.
+41404 paired-reads (in 256 unique pairings) successfully merged out of 43399 (in 380 pairings) input.
+23593 paired-reads (in 213 unique pairings) successfully merged out of 25496 (in 256 pairings) input.
+44681 paired-reads (in 451 unique pairings) successfully merged out of 47228 (in 623 pairings) input.
+39467 paired-reads (in 237 unique pairings) successfully merged out of 42900 (in 415 pairings) input.
+39508 paired-reads (in 171 unique pairings) successfully merged out of 41538 (in 249 pairings) input.
+28057 paired-reads (in 293 unique pairings) successfully merged out of 33354 (in 404 pairings) input.
+23073 paired-reads (in 129 unique pairings) successfully merged out of 27864 (in 168 pairings) input.
+26278 paired-reads (in 346 unique pairings) successfully merged out of 28129 (in 444 pairings) input.
+25155 paired-reads (in 234 unique pairings) successfully merged out of 27949 (in 301 pairings) input.
+15441 paired-reads (in 213 unique pairings) successfully merged out of 18317 (in 279 pairings) input.
+42086 paired-reads (in 376 unique pairings) successfully merged out of 43443 (in 516 pairings) input.
+41936 paired-reads (in 371 unique pairings) successfully merged out of 45046 (in 544 pairings) input.
+23409 paired-reads (in 172 unique pairings) successfully merged out of 29858 (in 282 pairings) input.
+12034 paired-reads (in 146 unique pairings) successfully merged out of 13184 (in 182 pairings) input.
+36894 paired-reads (in 316 unique pairings) successfully merged out of 40741 (in 414 pairings) input.
+45370 paired-reads (in 237 unique pairings) successfully merged out of 46398 (in 328 pairings) input.
+30394 paired-reads (in 374 unique pairings) successfully merged out of 32103 (in 518 pairings) input.
+56404 paired-reads (in 471 unique pairings) successfully merged out of 57833 (in 709 pairings) input.
+38078 paired-reads (in 207 unique pairings) successfully merged out of 42263 (in 341 pairings) input.
+37831 paired-reads (in 288 unique pairings) successfully merged out of 39327 (in 401 pairings) input.
+50460 paired-reads (in 334 unique pairings) successfully merged out of 51592 (in 455 pairings) input.
+48886 paired-reads (in 196 unique pairings) successfully merged out of 49946 (in 305 pairings) input.
+62353 paired-reads (in 94 unique pairings) successfully merged out of 63427 (in 154 pairings) input.
+29377 paired-reads (in 263 unique pairings) successfully merged out of 30865 (in 314 pairings) input.
+27678 paired-reads (in 223 unique pairings) successfully merged out of 31971 (in 279 pairings) input.
+35023 paired-reads (in 221 unique pairings) successfully merged out of 36628 (in 265 pairings) input.
+48591 paired-reads (in 155 unique pairings) successfully merged out of 49433 (in 296 pairings) input.
+31146 paired-reads (in 324 unique pairings) successfully merged out of 32547 (in 428 pairings) input.
+45794 paired-reads (in 370 unique pairings) successfully merged out of 47589 (in 515 pairings) input.
+35905 paired-reads (in 365 unique pairings) successfully merged out of 37791 (in 448 pairings) input.
+17449 paired-reads (in 289 unique pairings) successfully merged out of 18966 (in 420 pairings) input.
+35006 paired-reads (in 311 unique pairings) successfully merged out of 36258 (in 414 pairings) input.
+28714 paired-reads (in 214 unique pairings) successfully merged out of 29795 (in 262 pairings) input.
+56102 paired-reads (in 401 unique pairings) successfully merged out of 59393 (in 605 pairings) input.
+26651 paired-reads (in 251 unique pairings) successfully merged out of 36469 (in 370 pairings) input.
+29364 paired-reads (in 376 unique pairings) successfully merged out of 30814 (in 471 pairings) input.
+37259 paired-reads (in 231 unique pairings) successfully merged out of 38910 (in 315 pairings) input.
+33029 paired-reads (in 284 unique pairings) successfully merged out of 36295 (in 350 pairings) input.
+49244 paired-reads (in 293 unique pairings) successfully merged out of 50977 (in 392 pairings) input.
+29710 paired-reads (in 271 unique pairings) successfully merged out of 37045 (in 323 pairings) input.
+32557 paired-reads (in 356 unique pairings) successfully merged out of 34208 (in 437 pairings) input.
+39704 paired-reads (in 331 unique pairings) successfully merged out of 42472 (in 415 pairings) input.
+45493 paired-reads (in 463 unique pairings) successfully merged out of 47960 (in 712 pairings) input.
+19902 paired-reads (in 174 unique pairings) successfully merged out of 22002 (in 210 pairings) input.
+6828 paired-reads (in 48 unique pairings) successfully merged out of 8021 (in 66 pairings) input.
+36604 paired-reads (in 209 unique pairings) successfully merged out of 38685 (in 303 pairings) input.
+32551 paired-reads (in 269 unique pairings) successfully merged out of 36298 (in 398 pairings) input.
+29638 paired-reads (in 177 unique pairings) successfully merged out of 32606 (in 271 pairings) input.
+36449 paired-reads (in 192 unique pairings) successfully merged out of 38492 (in 250 pairings) input.
+39623 paired-reads (in 257 unique pairings) successfully merged out of 41180 (in 325 pairings) input.
+37121 paired-reads (in 331 unique pairings) successfully merged out of 38675 (in 436 pairings) input.
+52612 paired-reads (in 276 unique pairings) successfully merged out of 55040 (in 370 pairings) input.
+20912 paired-reads (in 247 unique pairings) successfully merged out of 22515 (in 323 pairings) input.
+37848 paired-reads (in 212 unique pairings) successfully merged out of 39700 (in 332 pairings) input.
+42947 paired-reads (in 459 unique pairings) successfully merged out of 45575 (in 698 pairings) input.
+42649 paired-reads (in 230 unique pairings) successfully merged out of 43817 (in 356 pairings) input.
+42095 paired-reads (in 142 unique pairings) successfully merged out of 43630 (in 195 pairings) input.
+52611 paired-reads (in 127 unique pairings) successfully merged out of 53507 (in 169 pairings) input.
+36431 paired-reads (in 226 unique pairings) successfully merged out of 38523 (in 307 pairings) input.
+26613 paired-reads (in 172 unique pairings) successfully merged out of 27910 (in 219 pairings) input.
+20567 paired-reads (in 170 unique pairings) successfully merged out of 25420 (in 263 pairings) input.
+56867 paired-reads (in 113 unique pairings) successfully merged out of 57546 (in 188 pairings) input.
+42248 paired-reads (in 205 unique pairings) successfully merged out of 43857 (in 244 pairings) input.
+39106 paired-reads (in 313 unique pairings) successfully merged out of 40836 (in 495 pairings) input.
+31443 paired-reads (in 234 unique pairings) successfully merged out of 35077 (in 313 pairings) input.
+22504 paired-reads (in 161 unique pairings) successfully merged out of 32409 (in 200 pairings) input.
+7766 paired-reads (in 110 unique pairings) successfully merged out of 8065 (in 136 pairings) input.
+18315 paired-reads (in 193 unique pairings) successfully merged out of 20110 (in 249 pairings) input.
+20298 paired-reads (in 185 unique pairings) successfully merged out of 21307 (in 225 pairings) input.
+21008 paired-reads (in 191 unique pairings) successfully merged out of 22556 (in 239 pairings) input.
+21604 paired-reads (in 155 unique pairings) successfully merged out of 27041 (in 195 pairings) input.
+29400 paired-reads (in 634 unique pairings) successfully merged out of 32596 (in 891 pairings) input.
+22926 paired-reads (in 103 unique pairings) successfully merged out of 24180 (in 143 pairings) input.
+31838 paired-reads (in 329 unique pairings) successfully merged out of 35330 (in 425 pairings) input.
+15516 paired-reads (in 190 unique pairings) successfully merged out of 16266 (in 229 pairings) input.
+15355 paired-reads (in 130 unique pairings) successfully merged out of 15830 (in 154 pairings) input.
+26306 paired-reads (in 154 unique pairings) successfully merged out of 27011 (in 189 pairings) input.
+25750 paired-reads (in 243 unique pairings) successfully merged out of 26640 (in 329 pairings) input.
+18402 paired-reads (in 147 unique pairings) successfully merged out of 20265 (in 206 pairings) input.
+24327 paired-reads (in 144 unique pairings) successfully merged out of 26200 (in 260 pairings) input.
+42926 paired-reads (in 67 unique pairings) successfully merged out of 43103 (in 99 pairings) input.
+30777 paired-reads (in 328 unique pairings) successfully merged out of 33960 (in 442 pairings) input.
+39277 paired-reads (in 280 unique pairings) successfully merged out of 40897 (in 389 pairings) input.
+43182 paired-reads (in 141 unique pairings) successfully merged out of 45211 (in 237 pairings) input.
+31224 paired-reads (in 364 unique pairings) successfully merged out of 32832 (in 483 pairings) input.
+15360 paired-reads (in 168 unique pairings) successfully merged out of 26000 (in 207 pairings) input.
+25610 paired-reads (in 186 unique pairings) successfully merged out of 27811 (in 234 pairings) input.
+32313 paired-reads (in 202 unique pairings) successfully merged out of 33104 (in 236 pairings) input.
+1281 paired-reads (in 22 unique pairings) successfully merged out of 1359 (in 26 pairings) input.
+52445 paired-reads (in 47 unique pairings) successfully merged out of 54413 (in 80 pairings) input.
+36100 paired-reads (in 29 unique pairings) successfully merged out of 36545 (in 54 pairings) input.
+> 
+> save(woodMergers, file='woodMergers.rda')
+> 
+> proc.time()
+   user  system elapsed 
+ 80.786   2.243  83.089 
